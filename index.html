@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAULT ZERO — Хранилище нулевой точки</title>
+<meta name="description" content="VAULT ZERO — Roblox-игра с хранилищами, оружием и боевой системой. Новости, арсенал и план разработки.">
+<meta name="theme-color" content="#10151b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VAULT ZERO — Хранилище нулевой точки">
+<meta property="og:description" content="Открывай хранилища, добывай оружие и пробивайся через мир, который строится прямо сейчас.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2310151b' stroke='%23f08a3c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='8' fill='none' stroke='%238fd0e6' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --base: #10151b;
+    --panel: #171e26;
+    --line: #2a333e;
+    --bone: #ebe5d6;
+    --ash: #8d96a0;
+    --magma: #f08a3c;
+    --frost: #8fd0e6;
+
+    --display: "Forum", "Trajan Pro", Georgia, serif;
+    --body: "Golos Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+    --pad: clamp(20px, 5vw, 56px);
+    --max: 1180px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body {
+    margin: 0;
+    background: var(--base);
+    color: var(--bone);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+  ul, ol { list-style: none; }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; }
+
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 2px solid var(--frost); outline-offset: 3px; }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+  /* ---------- Header ---------- */
+  .site-head {
+    position: fixed; inset: 0 0 auto 0; z-index: 20;
+    background: rgba(16, 21, 27, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-head .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .brand {
+    font-family: var(--display);
+    font-size: 22px; letter-spacing: 0.14em; text-decoration: none;
+  }
+  .site-nav { display: flex; align-items: center; gap: 28px; }
+  .site-nav a { text-decoration: none; color: var(--ash); font-size: 15px; transition: color .2s; }
+  .site-nav a:hover { color: var(--bone); }
+  .site-nav .nav-play { color: var(--base); background: var(--magma); padding: 8px 16px; border-radius: 4px; font-weight: 600; }
+  .site-nav .nav-play:hover { color: var(--base); background: #f59a52; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font: 600 16px/1 var(--body);
+    padding: 16px 28px; border-radius: 4px; border: 1px solid transparent;
+    text-decoration: none; cursor: pointer; transition: background .2s, border-color .2s, color .2s;
+  }
+  .btn-primary { background: var(--magma); color: var(--base); }
+  .btn-primary:hover { background: #f59a52; }
+  .btn-ghost { background: transparent; color: var(--bone); border-color: var(--frost); }
+  .btn-ghost:hover { background: rgba(143, 208, 230, 0.12); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; overflow: hidden;
+    min-height: 100vh; min-height: 100svh;
+    padding: 112px 0 72px;
+    display: flex; align-items: center;
+    background:
+      radial-gradient(60% 70% at 8% 28%, rgba(143, 208, 230, 0.13), transparent 70%),
+      radial-gradient(60% 70% at 95% 78%, rgba(240, 138, 60, 0.16), transparent 70%),
+      var(--base);
+  }
+  #fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .hero-grid {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: center; gap: clamp(24px, 5vw, 72px);
+  }
+  .title {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(64px, 11vw, 148px);
+    line-height: 0.9; letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .title span { display: block; }
+  .tagline {
+    margin-top: 22px;
+    font-family: var(--display);
+    font-size: clamp(22px, 2.6vw, 32px);
+    color: var(--frost);
+  }
+  .lede { margin-top: 20px; max-width: 46ch; color: var(--ash); font-size: 19px; }
+  .actions { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 14px; }
+
+  /* ---------- Vault ---------- */
+  .vault { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1; justify-self: center; }
+  .door {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    transition: transform .8s cubic-bezier(.6, 0, .3, 1), opacity .5s;
+  }
+  .door-l { clip-path: inset(0 50% 0 0); }
+  .door-r { clip-path: inset(0 0 0 50%); }
+  .vault.is-open .door { transition: transform 1.3s cubic-bezier(.7, 0, .2, 1) .35s, opacity .9s ease .8s; opacity: 0; }
+  .vault.is-open .door-l { transform: translateX(-46%); }
+  .vault.is-open .door-r { transform: translateX(46%); }
+
+  .core {
+    position: absolute; inset: 16%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    gap: 10px; padding: 8%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(143, 208, 230, 0.22), transparent 62%),
+      radial-gradient(circle at 70% 50%, rgba(240, 138, 60, 0.26), transparent 62%),
+      var(--panel);
+    border: 1px solid var(--line);
+    opacity: 0; transform: scale(0.88);
+    transition: opacity .4s, transform .4s;
+  }
+  .vault.is-open .core { opacity: 1; transform: none; transition: opacity .8s ease 1s, transform .8s ease 1s; }
+  .core h2 { font-family: var(--display); font-weight: 400; font-size: clamp(22px, 3vw, 32px); line-height: 1.1; }
+  .core p { color: var(--ash); font-size: 15px; max-width: 24ch; line-height: 1.45; }
+  .core .btn { padding: 11px 18px; font-size: 14px; margin-top: 4px; }
+
+  /* load sequence: the only automatic motion besides the hero particles */
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  @keyframes appear { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+  .title span:nth-child(1) { animation: rise .8s cubic-bezier(.2, .7, .2, 1) .1s both; }
+  .title span:nth-child(2) { animation: rise .8s cubic-bezier(.2, .7, .2, 1) .22s both; }
+  .tagline { animation: rise .8s cubic-bezier(.2, .7, .2, 1) .4s both; }
+  .lede { animation: rise .8s cubic-bezier(.2, .7, .2, 1) .5s both; }
+  .actions { animation: rise .8s cubic-bezier(.2, .7, .2, 1) .6s both; }
+  .vault { animation: appear 1.1s cubic-bezier(.2, .7, .2, 1) .2s both; }
+
+  /* ---------- Sections ---------- */
+  .sec { position: relative; padding: clamp(72px, 10vw, 136px) 0; }
+  .sec::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, var(--frost), var(--line) 35%, var(--line) 65%, var(--magma));
+    opacity: 0.8;
+  }
+  .sec-head { max-width: 640px; margin-bottom: clamp(32px, 5vw, 56px); }
+  .sec-head h2 {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(36px, 5.4vw, 64px); line-height: 1; letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .sec-head p { margin-top: 18px; color: var(--ash); max-width: 52ch; }
+
+  /* ---------- Vault table ---------- */
+  .ledger { width: 100%; border-collapse: collapse; }
+  .ledger th {
+    text-align: left; font-weight: 500; font-size: 14px; color: var(--ash);
+    padding: 0 0 14px; border-bottom: 1px solid var(--line);
+  }
+  .ledger td { padding: 22px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+  .ledger tbody tr { transition: background .2s; }
+  .ledger tbody tr:hover { background: rgba(235, 229, 214, 0.03); }
+  .ledger .name { font-family: var(--display); font-size: clamp(22px, 3vw, 32px); }
+  .ledger .lvl { color: var(--ash); }
+  .ledger .price { text-align: right; font-family: var(--display); font-size: clamp(30px, 4.5vw, 52px); line-height: 1; }
+  .ledger th:last-child { text-align: right; }
+  .themes { margin-top: 40px; color: var(--ash); }
+  .themes .ice, .themes .mag { font-family: var(--display); font-size: 24px; }
+  .themes .ice { color: var(--frost); }
+  .themes .mag { color: var(--magma); }
+
+  /* ---------- Combat strip ---------- */
+  .moves {
+    display: flex; flex-wrap: wrap;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .moves li {
+    flex: 1 1 160px; padding: 28px 24px;
+    font-family: var(--display); font-size: clamp(24px, 3.4vw, 40px); line-height: 1;
+    border-left: 1px solid var(--line);
+  }
+  .moves li:first-child { border-left: 0; padding-left: 0; }
+  .moves-note { margin-top: 20px; color: var(--ash); max-width: 62ch; }
+
+  /* ---------- Arsenal ---------- */
+  .arsenal { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); }
+  .weapon { padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 22px; }
+  .weapon + .weapon { border-left: 1px solid var(--line); }
+  .weapon.magma { background: linear-gradient(165deg, rgba(240, 138, 60, 0.16), transparent 55%); }
+  .weapon.frost { background: linear-gradient(165deg, rgba(143, 208, 230, 0.14), transparent 55%); }
+  .weapon h3 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 4.6vw, 56px); line-height: 1; letter-spacing: 0.02em; }
+  .weapon.magma h3 { color: var(--magma); }
+  .weapon.frost h3 { color: var(--frost); }
+  .weapon p { color: var(--ash); max-width: 40ch; }
+
+  /* image slot: shows the picture if the file exists, otherwise a clear placeholder */
+  .shot {
+    position: relative; aspect-ratio: 4 / 3; overflow: hidden;
+    background: var(--panel); border: 1px solid var(--line);
+  }
+  .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .shot .slot {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--ash); font-size: 14px; text-align: center; padding: 16px;
+  }
+  .shot.tall { aspect-ratio: 3 / 4; }
+
+  /* ---------- World ---------- */
+  .dossier { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(24px, 5vw, 64px); align-items: start; }
+  .dossier h3 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 4.6vw, 56px); line-height: 1; }
+  .dossier .blurb { margin-top: 16px; color: var(--ash); max-width: 48ch; }
+  .stats { margin-top: 28px; border-top: 1px solid var(--line); }
+  .stats div { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .stats dt { color: var(--ash); }
+  .stats dd { margin: 0; }
+
+  .npc-title { margin-top: clamp(56px, 8vw, 96px); font-family: var(--display); font-weight: 400; font-size: clamp(26px, 3.4vw, 38px); }
+  .npcs { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); column-gap: 48px; border-top: 1px solid var(--line); }
+  .npcs li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .npcs .ru { font-size: 18px; }
+  .npcs .en { color: var(--ash); font-size: 14px; }
+
+  /* ---------- Route ---------- */
+  .route { position: relative; max-width: 640px; padding-left: 36px; }
+  .route::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+  .route li { position: relative; padding: 14px 0; font-family: var(--display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; }
+  .route li::before {
+    content: ""; position: absolute; left: -36px; top: 50%; width: 13px; height: 13px; margin-top: -6px;
+    border-radius: 50%; background: var(--base); border: 1px solid var(--ash);
+  }
+  .route li.done::before { background: var(--frost); border-color: var(--frost); }
+  .route li.now::before { background: var(--magma); border-color: var(--magma); }
+  .route-note { margin-top: 28px; color: var(--ash); max-width: 52ch; }
+
+  /* ---------- Footer ---------- */
+  .site-foot { position: relative; padding: clamp(56px, 8vw, 96px) 0 40px; }
+  .site-foot::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--frost), var(--line) 35%, var(--line) 65%, var(--magma)); }
+  .foot-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; }
+  .foot-cta h2 { font-family: var(--display); font-weight: 400; font-size: clamp(32px, 5vw, 56px); line-height: 1.05; max-width: 14ch; text-transform: uppercase; }
+  .links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .fine { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--ash); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .vault { max-width: 420px; }
+    .arsenal { grid-template-columns: 1fr; }
+    .weapon + .weapon { border-left: 0; border-top: 1px solid var(--line); }
+    .dossier { grid-template-columns: 1fr; }
+    .site-nav a:not(.nav-play) { display: none; }
+  }
+  @media (max-width: 560px) {
+    .ledger .lvl-col { display: none; }
+    .stats div { grid-template-columns: 110px 1fr; }
+    .moves li { border-left: 0; padding-left: 0; flex-basis: 45%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Vault door artwork (shared by both halves of the door) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gDual" gradientUnits="userSpaceOnUse" x1="20" y1="0" x2="480" y2="0">
+      <stop offset="0" stop-color="#8fd0e6"/>
+      <stop offset="0.5" stop-color="#c9c4b6"/>
+      <stop offset="1" stop-color="#f08a3c"/>
+    </linearGradient>
+    <radialGradient id="gIron" cx="50%" cy="42%" r="70%">
+      <stop offset="0" stop-color="#232c37"/>
+      <stop offset="1" stop-color="#141a21"/>
+    </radialGradient>
+    <radialGradient id="gPlate" cx="50%" cy="40%" r="70%">
+      <stop offset="0" stop-color="#2a3541"/>
+      <stop offset="1" stop-color="#18202a"/>
+    </radialGradient>
+  </defs>
+  <symbol id="door" viewBox="0 0 500 500">
+    <circle cx="250" cy="250" r="244" fill="url(#gIron)" stroke="#2a333e" stroke-width="2"/>
+    <circle cx="250" cy="250" r="238" fill="none" stroke="url(#gDual)" stroke-width="1.5" opacity="0.9"/>
+    <g id="ticks" stroke="#c9c4b6" stroke-width="1.4" opacity="0.5"></g>
+    <circle cx="250" cy="250" r="222" fill="none" stroke="#2a333e" stroke-width="2"/>
+
+    <g id="ringA">
+      <circle cx="250" cy="250" r="214" fill="none" stroke="url(#gDual)" stroke-width="1.2" opacity="0.8"/>
+      <circle cx="250" cy="250" r="180" fill="none" stroke="url(#gDual)" stroke-width="1.2" opacity="0.8"/>
+      <g id="runes" fill="none" stroke="#ebe5d6" stroke-width="1.6" stroke-linecap="round" opacity="0.62"></g>
+    </g>
+
+    <g id="ringB">
+      <circle cx="250" cy="250" r="168" fill="#151c24" stroke="#2a333e" stroke-width="2"/>
+      <g id="notches" fill="url(#gDual)" opacity="0.9"></g>
+      <circle cx="250" cy="250" r="150" fill="none" stroke="#2a333e" stroke-width="2"/>
+    </g>
+
+    <circle cx="250" cy="250" r="142" fill="url(#gPlate)" stroke="url(#gDual)" stroke-width="1.5"/>
+    <g id="bolts"></g>
+
+    <g id="wheel">
+      <g id="spokes" stroke="url(#gDual)" stroke-width="7" stroke-linecap="round"></g>
+      <g id="knobs" fill="#18202a" stroke="url(#gDual)" stroke-width="2.5"></g>
+    </g>
+    <circle cx="250" cy="250" r="28" fill="#18202a" stroke="url(#gDual)" stroke-width="3"/>
+    <circle cx="250" cy="250" r="8" fill="none" stroke="url(#gDual)" stroke-width="3"/>
+  </symbol>
+</svg>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="VAULT ZERO, к началу страницы">VAULT ZERO</a>
+    <nav class="site-nav" aria-label="Разделы">
+      <a href="#vaults">Хранилища</a>
+      <a href="#arsenal">Арсенал</a>
+      <a href="#world">Мир</a>
+      <a href="#route">План</a>
+      <a class="nav-play" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" id="hero">
+    <canvas id="fx" aria-hidden="true"></canvas>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="title"><span>Vault</span><span>Zero</span></h1>
+        <p class="tagline">Хранилище нулевой точки</p>
+        <p class="lede">Открывай хранилища, добывай оружие и пробивайся через мир, который строится прямо сейчас.</p>
+        <div class="actions">
+          <a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть в Roblox</a>
+          <button class="btn btn-ghost" id="openBtn" type="button" aria-expanded="false" aria-controls="core">Открыть хранилище</button>
+        </div>
+      </div>
+
+      <div class="vault" id="vault">
+        <div class="core" id="core" inert>
+          <h2>Хранилище открыто</h2>
+          <p>Награды ждут внутри игры.</p>
+          <a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Войти в игру</a>
+        </div>
+        <svg class="door door-l" viewBox="0 0 500 500" aria-hidden="true" focusable="false"><use href="#door"/></svg>
+        <svg class="door door-r" viewBox="0 0 500 500" aria-hidden="true" focusable="false"><use href="#door"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="vaults">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Хранилища</h2>
+        <p>Награду определяет сервер, а не клиент: результат нельзя подделать на стороне игрока.</p>
+      </div>
+
+      <table class="ledger">
+        <thead>
+          <tr><th>Хранилище</th><th class="lvl-col">Уровень доступа</th><th>Цена</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">Free Vault</td><td class="lvl lvl-col">—</td><td class="price">Бесплатно</td></tr>
+          <tr><td class="name">Хранилище I</td><td class="lvl lvl-col">1</td><td class="price">100</td></tr>
+          <tr><td class="name">Хранилище II</td><td class="lvl lvl-col">2</td><td class="price">350</td></tr>
+          <tr><td class="name">Хранилище III</td><td class="lvl lvl-col">4</td><td class="price">900</td></tr>
+        </tbody>
+      </table>
+
+      <p class="themes">Две тематики оформления: <span class="ice">Ice</span> и <span class="mag">Magma</span>.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="arsenal">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Арсенал</h2>
+        <p>Два главных клинка проекта.</p>
+      </div>
+
+      <div class="arsenal">
+        <article class="weapon magma">
+          <figure class="shot">
+            <div class="slot">Скриншот: img/corebreaker.png</div>
+            <img src="img/corebreaker.png" alt="Corebreaker" loading="lazy" onerror="this.remove()">
+          </figure>
+          <h3>Corebreaker</h3>
+          <p>Клинок с выраженным магматическим ядром и острыми гранями с обеих сторон.</p>
+        </article>
+
+        <article class="weapon frost">
+          <figure class="shot">
+            <div class="slot">Скриншот: img/shatterheart.png</div>
+            <img src="img/shatterheart.png" alt="Shatterheart" loading="lazy" onerror="this.remove()">
+          </figure>
+          <h3>Shatterheart</h3>
+          <p>Меч с утверждённым дизайном. Руны и эффекты ещё в работе.</p>
+        </article>
+      </div>
+
+      <div style="height: clamp(48px, 7vw, 88px)"></div>
+
+      <ul class="moves">
+        <li>Lock-On</li>
+        <li>Спринт</li>
+        <li>Рывок</li>
+        <li>Перекат</li>
+        <li>Прыжок</li>
+      </ul>
+      <p class="moves-note">Бой строится на плавных переходах между движениями. Оружие ближнего боя: коса и копьё.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="world">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Мир</h2>
+        <p>Лагеря, мобы и жители острова. Мир собирается по плану, который ниже.</p>
+      </div>
+
+      <div class="dossier">
+        <figure class="shot tall">
+          <div class="slot">Концепт: img/goblin-scout.png</div>
+          <img src="img/goblin-scout.png" alt="Goblin Scout" loading="lazy" onerror="this.remove()">
+        </figure>
+        <div>
+          <h3>Goblin Scout</h3>
+          <p class="blurb">Быстрый, ловкий, всегда на шаг впереди. Он появляется раньше, чем его заметят.</p>
+          <dl class="stats">
+            <div><dt>Роль</dt><dd>Разведчик</dd></div>
+            <div><dt>Фракция</dt><dd>Лесные гоблины</dd></div>
+            <div><dt>Угроза</dt><dd>Средняя</dd></div>
+            <div><dt>Повадки</dt><dd>Скорость, ловкость, внезапные атаки</dd></div>
+            <div><dt>Оружие</dt><dd>Кинжалы и метательное</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <h3 class="npc-title">Жители</h3>
+      <ul class="npcs">
+        <li><span class="ru">Кузнец</span><span class="en">Blacksmith</span></li>
+        <li><span class="ru">Хранитель рун</span><span class="en">Rune Keeper</span></li>
+        <li><span class="ru">Торговец ресурсами</span><span class="en">Resource Trader</span></li>
+        <li><span class="ru">Архивариус</span><span class="en">Archivist</span></li>
+        <li><span class="ru">Зачарователь</span><span class="en">Enchanter</span></li>
+        <li><span class="ru">Охотник на гоблинов</span><span class="en">Goblin Hunter</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="route">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>План работ</h2>
+        <p>Мир собирается этап за этапом. Так порядок выглядит сейчас.</p>
+      </div>
+
+      <!-- Статус этапа: добавь класс "done" (готово) или "now" (в работе) к нужному пункту -->
+      <ol class="route">
+        <li>Кусты</li>
+        <li>Мобы</li>
+        <li>Лагеря</li>
+        <li>Вода</li>
+        <li>Форма острова</li>
+        <li>Погода</li>
+        <li>Cinematic Lighting</li>
+        <li>Атмосфера и звуки</li>
+        <li>Финальная оптимизация</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-cta">
+      <h2>Нулевая точка ждёт</h2>
+      <div class="links">
+        <a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть в Roblox</a>
+        <a class="btn btn-ghost" data-link="discord" href="#" target="_blank" rel="noopener" hidden>Discord</a>
+        <a class="btn btn-ghost" data-link="email" href="#" hidden>Написать нам</a>
+      </div>
+    </div>
+    <div class="fine">
+      <span>© 2026 VAULT ZERO</span>
+      <span>Roblox — торговая марка Roblox Corporation. Проект не связан с ней.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---- Ссылки: впиши свои, пустые кнопки скрываются сами ---- */
+  var LINKS = {
+    roblox:  "https://www.roblox.com/games/78115785740379",
+    discord: "",            // например "https://discord.gg/xxxx"
+    email:   ""             // например "hello@vaultzero.store"
+  };
+  document.querySelectorAll("[data-link]").forEach(function (el) {
+    var key = el.getAttribute("data-link");
+    var val = LINKS[key];
+    if (!val) { el.hidden = true; return; }
+    el.href = key === "email" ? "mailto:" + val : val;
+    el.hidden = false;
+  });
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var NS = "http://www.w3.org/2000/svg";
+
+  function el(name, attrs) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  /* ---- Рисуем детали двери ---- */
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  var rand = rng(11);
+
+  var ticks = document.getElementById("ticks");
+  for (var i = 0; i < 72; i++) {
+    var long = i % 6 === 0;
+    ticks.appendChild(el("line", {
+      x1: 250, y1: 250 - 233, x2: 250, y2: 250 - (long ? 225 : 229),
+      transform: "rotate(" + (i * 5) + " 250 250)"
+    }));
+  }
+
+  var strokes = [
+    "M250 44 L250 64",
+    "M250 54 L258 46", "M250 58 L242 50", "M245 50 L255 50",
+    "M244 47 L250 53 L256 47", "M246 60 L254 60"
+  ];
+  var runes = document.getElementById("runes");
+  for (var r = 0; r < 48; r++) {
+    var g = el("g", { transform: "rotate(" + (r * 7.5) + " 250 250)" });
+    g.appendChild(el("path", { d: strokes[0] }));
+    var n = 1 + Math.floor(rand() * 2);
+    var used = {};
+    for (var s = 0; s < n; s++) {
+      var idx = 1 + Math.floor(rand() * (strokes.length - 1));
+      if (used[idx]) continue;
+      used[idx] = true;
+      g.appendChild(el("path", { d: strokes[idx] }));
+    }
+    runes.appendChild(g);
+  }
+
+  var notches = document.getElementById("notches");
+  for (var k = 0; k < 12; k++) {
+    notches.appendChild(el("rect", {
+      x: 246, y: 250 - 166, width: 8, height: 12, rx: 1.5,
+      transform: "rotate(" + (k * 30) + " 250 250)"
+    }));
+  }
+
+  var bolts = document.getElementById("bolts");
+  for (var b = 0; b < 8; b++) {
+    var a = (b * 45 - 90) * Math.PI / 180;
+    var bx = 250 + Math.cos(a) * 124, by = 250 + Math.sin(a) * 124;
+    bolts.appendChild(el("circle", { cx: bx, cy: by, r: 7, fill: "#18202a", stroke: "url(#gDual)", "stroke-width": 2 }));
+    bolts.appendChild(el("circle", { cx: bx, cy: by, r: 2, fill: "#c9c4b6", opacity: 0.7 }));
+  }
+
+  var spokes = document.getElementById("spokes");
+  var knobs = document.getElementById("knobs");
+  for (var p = 0; p < 6; p++) {
+    var ang = p * 60;
+    spokes.appendChild(el("line", { x1: 250, y1: 250, x2: 250, y2: 250 - 92, transform: "rotate(" + ang + " 250 250)" }));
+    knobs.appendChild(el("circle", { cx: 250, cy: 250 - 100, r: 10, transform: "rotate(" + ang + " 250 250)" }));
+  }
+
+  /* ---- Вращение колец: мышь, скролл и открытие ---- */
+  var ringA = document.getElementById("ringA");
+  var ringB = document.getElementById("ringB");
+  var wheel = document.getElementById("wheel");
+  var hero = document.getElementById("hero");
+  var vault = document.getElementById("vault");
+  var openBtn = document.getElementById("openBtn");
+  var core = document.getElementById("core");
+
+  var px = 0, curX = 0, boost = 0, boostTarget = 0, heroVisible = true;
+
+  function frame() {
+    curX += (px - curX) * 0.06;
+    boost += (boostTarget - boost) * 0.045;
+    var sy = window.scrollY;
+    ringA.setAttribute("transform", "rotate(" + (curX * 22 + sy * 0.05 + boost).toFixed(2) + " 250 250)");
+    ringB.setAttribute("transform", "rotate(" + (-(curX * 34 + sy * 0.08 + boost * 1.6)).toFixed(2) + " 250 250)");
+    wheel.setAttribute("transform", "rotate(" + (curX * 46 + sy * 0.12 + boost * 2.6).toFixed(2) + " 250 250)");
+    if (heroVisible) requestAnimationFrame(frame);
+  }
+
+  if (!reduce) {
+    hero.addEventListener("pointermove", function (e) { px = e.clientX / window.innerWidth - 0.5; });
+    requestAnimationFrame(frame);
+  }
+
+  function setOpen(open) {
+    vault.classList.toggle("is-open", open);
+    openBtn.setAttribute("aria-expanded", String(open));
+    openBtn.textContent = open ? "Закрыть хранилище" : "Открыть хранилище";
+    core.inert = !open;
+    boostTarget = open ? 200 : 0;
+  }
+  openBtn.addEventListener("click", function () {
+    setOpen(!vault.classList.contains("is-open"));
+  });
+
+  /* ---- Частицы: угли справа, ледяная пыль слева ---- */
+  var cv = document.getElementById("fx");
+  var ctx = cv.getContext("2d");
+  var W = 0, H = 0, motes = [];
+
+  function sizeCanvas() {
+    var rect = hero.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = rect.width; H = rect.height;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function spawn(kind, initial) {
+    var ember = kind === "ember";
+    return {
+      kind: kind,
+      x: ember ? W * (0.4 + Math.random() * 0.6) : W * (Math.random() * 0.6),
+      y: initial ? Math.random() * H : (ember ? H + 10 : -10),
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: ember ? -(0.25 + Math.random() * 0.55) : (0.12 + Math.random() * 0.3),
+      r: 0.6 + Math.random() * 1.5,
+      a: 0.25 + Math.random() * 0.45
+    };
+  }
+
+  function step() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < motes.length; i++) {
+      var m = motes[i];
+      m.x += m.vx; m.y += m.vy;
+      if (m.y < -12 || m.y > H + 12) { motes[i] = spawn(m.kind, false); continue; }
+      ctx.globalAlpha = m.a;
+      ctx.fillStyle = m.kind === "ember" ? "#f08a3c" : "#8fd0e6";
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, 6.2832); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    if (heroVisible) requestAnimationFrame(step);
+  }
+
+  function initFx() {
+    sizeCanvas();
+    motes = [];
+    for (var i = 0; i < 26; i++) motes.push(spawn("ember", true));
+    for (var j = 0; j < 18; j++) motes.push(spawn("frost", true));
+  }
+
+  if (!reduce) {
+    initFx();
+    requestAnimationFrame(step);
+    window.addEventListener("resize", initFx);
+  }
+
+  /* Не крутим анимацию, пока герой-блок не на экране */
+  if ("IntersectionObserver" in window && !reduce) {
+    new IntersectionObserver(function (entries) {
+      var was = heroVisible;
+      heroVisible = entries[0].isIntersecting;
+      if (heroVisible && !was) { requestAnimationFrame(frame); requestAnimationFrame(step); }
+    }).observe(hero);
+  }
+})();
+</script>
+
+</body>
+</html>
