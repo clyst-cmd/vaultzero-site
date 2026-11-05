@@ -306,7 +306,7 @@
 <div class="wrap">
 <a aria-label="VAULT ZERO, на главную" class="brand" href="index.html">VAULT ZERO</a>
 <nav aria-label="Разделы" class="site-nav">
-<a data-keep="" href="index.html">Игра</a>
+<a data-keep="" href="index.html">Игра</a><a data-keep="" href="vaults.html">Vault</a>
 <a aria-current="page" data-keep="" href="#/">Вики</a>
 <a class="nav-play" href="https://www.roblox.com/games/78115785740379" rel="noopener" target="_blank">Играть</a>
 </nav>
@@ -320,6 +320,7 @@
 </div>
 </footer>
 <noscript><p style="padding:24px;color:#ebe5d6">Для работы вики нужен включённый JavaScript.</p></noscript>
+<script src="assets/catalog.js"></script>
 <script>
 /*
   База вики VAULT ZERO.
@@ -446,6 +447,31 @@ window.WIKI = {
   ]
 };
 
+</script>
+<script>
+/* Vault Zero art registry — all 48 original images indexed by Vault and rarity. */
+(function(){
+  var D=window.WIKI; if(!D || !window.VZ_ITEMS)return;
+  var vs=window.VZ_VAULTS, vaultById={};vs.forEach(function(v){vaultById[v.id]=v});
+  D.statuses.ready='Арт готов';D.statuses.wip='В процессе';
+  window.VZ_ITEMS.forEach(function(it){
+    var v=vaultById[it.vault],old=D.entries.find(function(x){return x.id===it.id}),actual=it.status==='ready'?'Арт готов':'В процессе';
+    var extra=[['Vault',v.name],['Редкость',it.rarity],['Статус арта',actual]];
+    if(old){
+      old.image=it.image;old.preview=it.preview;old.vault=it.vault;old.rarity=it.rarity;old.status=it.status;
+      old.facts=(old.facts||[]).filter(function(f){return f[0]!=='Статус'}).concat(extra);
+      old.type=old.type||'Оружие';
+      old.related=(old.related||[]).filter(function(id){return id!=='shatterheart'||it.id!=='corebreaker'});
+    }else{
+      D.entries.push({id:it.id,name:it.name,category:'weapon',type:'Оружие',status:it.status,accent:it.vault==='magma'||it.vault==='royal'?'magma':it.vault==='ice'||it.vault==='diamond'?'frost':'bone',vault:it.vault,rarity:it.rarity,preview:it.preview,image:it.image,
+        tagline:v.name+' · '+it.rarity,
+        facts:extra,
+        description:[it.status==='ready'?'Изображение этого предмета готово и включено в коллекцию '+v.name+'.':'Концепт этого предмета находится в разработке для '+v.name+'.', 'Боевые параметры, способы получения и присутствие в опубликованной игре по представленным изображениям не подтверждены.'],
+        parts:[],stats:[],lore:[],related:[]});
+    }
+  });
+  D.entries.forEach(function(e){if(!e.vault)return;var a=D.entries.filter(function(x){return x.vault===e.vault && x.id!==e.id});e.related=a.slice(0,3).map(function(x){return x.id})});
+})();
 </script>
 <script>
 (function () {
@@ -606,20 +632,22 @@ window.WIKI = {
       '<div class="c-banner">' + ringsSvg() +
       '<section class="wrap c-head">' +
         "<h1>Вики</h1>" +
-        "<p>Справочник по VAULT ZERO: оружие, мобы и жители мира. Он растёт вместе с игрой, поэтому у каждой записи есть статус.</p>" +
+        "<p>Архив 48 предметов из восьми хранилищ, а также мобы и жители VAULT ZERO. Статус относится к готовности изображения.</p>" +
       "</section></div>" +
       '<div class="wrap">' +
         '<div class="c-tools">' +
           '<label class="sr" for="q">Поиск по вики</label>' +
           '<input class="search" id="q" type="search" placeholder="Найти запись" autocomplete="off">' +
           '<div class="chips" id="chips"></div>' +
+          '<label class="sr" for="wikiVault">Vault</label><select class="archive-select" id="wikiVault"><option value="all">Все Vault</option>'+window.VZ_VAULTS.map(function(v){return '<option value="'+v.id+'">'+v.name+'</option>'}).join('')+'</select>' +
+          '<label class="sr" for="wikiStatus">Статус</label><select class="archive-select" id="wikiStatus"><option value="all">Любой статус</option><option value="ready">Арт готов</option><option value="wip">В процессе</option></select>' +
         "</div>" +
         '<p class="count" id="count" aria-live="polite"></p>' +
         '<div id="results"></div>' +
         '<section class="queue" id="queue"></section>' +
       "</div>";
 
-    var state = { q: "", cat: "all" };
+    var state = { q: "", cat: "all", vault:"all", status:"all" };
     var chipsEl = document.getElementById("chips");
     var chipDefs = [{ id: "all", name: "Все" }].concat(cats);
     chipsEl.innerHTML = chipDefs.map(function (c) {
@@ -628,14 +656,16 @@ window.WIKI = {
 
     function match(e) {
       if (state.cat !== "all" && e.category !== state.cat) return false;
+      if(state.vault !== "all" && e.vault !== state.vault) return false;
+      if(state.status !== "all" && e.status !== state.status) return false;
       if (!state.q) return true;
-      var hay = [e.name, e.type, e.tagline, catName(e.category)].join(" ").toLowerCase();
+      var hay = [e.name, e.type, e.tagline, catName(e.category),e.vault||"",e.rarity||""].join(" ").toLowerCase();
       return hay.indexOf(state.q) !== -1;
     }
 
     function draw() {
       var list = DATA.entries.filter(match);
-      var filtering = state.q || state.cat !== "all";
+      var filtering = state.q || state.cat !== "all" || state.vault !== "all" || state.status !== "all";
       var html = "";
       var featured = !filtering && DATA.entries.filter(function (e) { return e.featured && e.image; })[0];
       if (featured) {
@@ -650,20 +680,20 @@ window.WIKI = {
             '<img src="' + esc(featured.image) + '" alt="' + esc(featured.name) + '">' +
           "</a>";
       }
-      var rows = list.filter(function (e) { return !featured || e.id !== featured.id; });
-      if (rows.length) {
-        html += '<div class="ledger">' + rows.map(function (e) {
-          var a = ACCENTS[e.accent] || ACCENTS.bone;
-          var thumb = e.image
-            ? '<img src="' + esc(e.image) + '" alt="" loading="lazy">'
-            : esc(e.name.charAt(0));
-          return '<a class="row" href="#/' + esc(e.id) + '" style="--acc:' + a[0] + '">' +
-            '<span class="thumb">' + thumb + "</span>" +
-            "<span><span class=\"r-name\">" + esc(e.name) + '</span><p class="r-type">' + esc(catName(e.category)) + ", " + esc(e.type) + "</p></span>" +
-            '<span class="r-tag">' + esc(e.tagline) + "</span>" +
-            statusHtml(e.status) +
-          "</a>";
-        }).join("") + "</div>";
+      var rows = list.filter(function(e){return !featured || e.id!==featured.id});
+      var used={};
+      window.VZ_VAULTS.forEach(function(v){
+        var group=rows.filter(function(e){return e.vault===v.id});
+        if(!group.length)return;
+        group.sort(function(a,b){return (['Common','Uncommon','Rare','Epic','Legendary','Mythic','Secret'].indexOf(a.rarity))-(['Common','Uncommon','Rare','Epic','Legendary','Mythic','Secret'].indexOf(b.rarity))});
+        html+='<section class="wiki-collection" style="--vault-color:'+v.color+'"><div class="wiki-collection-head"><div><small>'+esc(v.kicker)+'</small><h2>'+esc(v.name)+'</h2></div><a href="vaults.html#'+v.id+'">Всё хранилище ↗</a></div><div class="wiki-card-grid">';
+        group.forEach(function(e){used[e.id]=true;html+='<a class="wiki-item-card" href="#/'+esc(e.id)+'"><div class="wiki-item-image"><img loading="lazy" src="'+esc(e.preview||e.image)+'" alt="'+esc(e.name)+'"></div><div class="wiki-item-info"><strong>'+esc(e.name)+'</strong><span>'+esc(e.rarity||'')+' · '+esc(DATA.statuses[e.status]||e.status)+'</span></div></a>'});
+        html+='</div></section>';
+      });
+      var other=rows.filter(function(e){return !used[e.id]});
+      if(other.length){
+        html+='<section class="wiki-collection misc"><div class="wiki-collection-head"><div><small>WORLD ARCHIVE</small><h2>Мир VAULT ZERO</h2></div></div><div class="ledger">';
+        html+=other.map(function(e){var a=ACCENTS[e.accent]||ACCENTS.bone;var thumb=e.image?'<img src="'+esc(e.image)+'" loading="lazy" alt="">':esc(e.name.charAt(0));return '<a class="row" href="#/'+esc(e.id)+'" style="--acc:'+a[0]+'"><span class="thumb">'+thumb+'</span><span><span class="r-name">'+esc(e.name)+'</span><p class="r-type">'+esc(catName(e.category))+'</p></span><span class="r-tag">'+esc(e.tagline)+'</span>'+statusHtml(e.status)+'</a>'}).join('')+'</div></section>';
       }
       if (!list.length) html = '<p class="empty">Ничего не найдено. Попробуй другое слово или сбрось фильтр.</p>';
       document.getElementById("results").innerHTML = html;
@@ -683,6 +713,8 @@ window.WIKI = {
       f.style.setProperty("--mx", (ev.clientX - r.left) + "px");
       f.style.setProperty("--my", (ev.clientY - r.top) + "px");
     });
+    document.getElementById("wikiVault").addEventListener("change",function(ev){state.vault=ev.target.value;draw()});
+    document.getElementById("wikiStatus").addEventListener("change",function(ev){state.status=ev.target.value;draw()});
     document.getElementById("q").addEventListener("input", function (ev) {
       state.q = ev.target.value.trim().toLowerCase(); draw();
     });
@@ -720,6 +752,7 @@ window.WIKI = {
             '<p class="crumb"><a href="#/">Вики</a> / ' + esc(catName(e.category)) + "</p>" +
             '<p class="e-tag">' + esc(e.tagline) + "</p>" +
             (facts ? '<dl class="facts">' + facts + "</dl>" : "") +
+            (e.vault ? '<p class="entry-vault-link"><a href="vaults.html#'+esc(e.vault)+'">↗ Коллекция '+esc(window.VZ_VAULTS.find(function(v){return v.id===e.vault}).name)+'</a></p>' : '') +
           "</div>" +
         "</div>" +
       "</section>" +
