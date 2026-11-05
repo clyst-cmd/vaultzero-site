@@ -27,7 +27,31 @@ function initWiki(){const root=document.getElementById('wiki-root');if(!root)ret
  function route(){const hash=decodeURIComponent(location.hash.replace(/^#\/?/,''));if(!hash||hash==='catalog'){renderCatalog()}else if(hash.startsWith('item/')){const item=itemById(hash.slice(5));if(item)renderDetail(item);else renderMissing()}else renderMissing();window.scrollTo({top:0,behavior:'instant'})}
  function renderMissing(){document.title='Запись не найдена — VAULT ZERO';root.innerHTML='<section class="wrap notfound"><h1>Артефакт не найден</h1><p>Возможно, ссылка устарела. Открой каталог, чтобы найти предмет.</p><a href="wiki.html" class="button button-gold">Вернуться в летопись</a></section>'}
  window.addEventListener('hashchange',route);route()}
-// A broken image does not cover item descriptions or create a layout shift.
-document.addEventListener('error',e=>{const el=e.target;if(el&&el.tagName==='IMG'&&!el.dataset.failed){el.dataset.failed='true';el.style.visibility='hidden';const fallback=document.createElement('span');fallback.textContent='Изображение временно недоступно';fallback.style.cssText='position:absolute;inset:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:#a59b91;font-size:12px;pointer-events:none;';el.parentNode?.appendChild(fallback)}},true);
+// Backwards-compatible image paths for older VAULT ZERO GitHub deployments.
+// Older sites stored card images in assets/previews/, whereas Aeterna uses assets/thumbs/.
+// Full-size items may also be PNG instead of WebP. Preserve the original artwork.
+document.addEventListener('error', e => {
+  const el = e.target;
+  if (!el || el.tagName !== 'IMG' || el.dataset.failed === 'true') return;
+  const src = el.getAttribute('src') || '';
+  let next = '';
+  if (src.includes('assets/thumbs/')) {
+    next = src.replace('assets/thumbs/', 'assets/previews/');
+  } else if (src.includes('assets/previews/')) {
+    next = src.replace('assets/previews/', 'assets/items/');
+  } else if (src.includes('assets/items/') && /\.webp(?:$|[?#])/i.test(src)) {
+    next = src.replace(/\.webp(?=$|[?#])/i, '.png');
+  }
+  if (next && next !== src) {
+    el.src = next;
+    return;
+  }
+  el.dataset.failed = 'true';
+  el.style.visibility = 'hidden';
+  const fallback = document.createElement('span');
+  fallback.textContent = 'Изображение временно недоступно';
+  fallback.style.cssText = 'position:absolute;inset:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:#a59b91;font-size:12px;pointer-events:none;';
+  el.parentNode?.appendChild(fallback);
+}, true);
 initNav();initExplorers();initWiki();
 })();
