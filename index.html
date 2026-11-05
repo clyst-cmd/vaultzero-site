@@ -225,6 +225,9 @@
     color: var(--ash); font-size: 14px; text-align: center; padding: 16px;
   }
   .shot.tall { aspect-ratio: 3 / 4; }
+  .shot.contain img { object-fit: contain; padding: 14px; }
+  .weapon .more { align-self: flex-start; color: var(--bone); text-decoration: underline; text-underline-offset: 5px; text-decoration-color: var(--line); transition: text-decoration-color .2s; }
+  .weapon .more:hover { text-decoration-color: var(--bone); }
 
   /* ---------- World ---------- */
   .dossier { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(24px, 5vw, 64px); align-items: start; }
@@ -268,7 +271,7 @@
     .arsenal { grid-template-columns: 1fr; }
     .weapon + .weapon { border-left: 0; border-top: 1px solid var(--line); }
     .dossier { grid-template-columns: 1fr; }
-    .site-nav a:not(.nav-play) { display: none; }
+    .site-nav a:not(.nav-play):not([data-keep]) { display: none; }
   }
   @media (max-width: 560px) {
     .ledger .lvl-col { display: none; }
@@ -339,6 +342,7 @@
       <a href="#arsenal">Арсенал</a>
       <a href="#world">Мир</a>
       <a href="#route">План</a>
+      <a href="wiki.html" data-keep>Вики</a>
       <a class="nav-play" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть</a>
     </nav>
   </div>
@@ -398,23 +402,24 @@
     <div class="wrap">
       <div class="sec-head">
         <h2>Арсенал</h2>
-        <p>Два главных клинка проекта.</p>
+        <p>Два главных оружия проекта.</p>
       </div>
 
       <div class="arsenal">
         <article class="weapon magma">
-          <figure class="shot">
-            <div class="slot">Скриншот: img/corebreaker.png</div>
-            <img src="img/corebreaker.png" alt="Corebreaker" loading="lazy" onerror="this.remove()">
+          <figure class="shot contain">
+            <div class="slot">Скриншот: corebreaker.webp</div>
+            <img src="corebreaker.webp" alt="Corebreaker" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.remove()">
           </figure>
           <h3>Corebreaker</h3>
-          <p>Клинок с выраженным магматическим ядром и острыми гранями с обеих сторон.</p>
+          <p>Боевая секира с магматическим ядром и острыми гранями с обеих сторон.</p>
+          <a class="more" href="wiki.html#/corebreaker">Страница в вики</a>
         </article>
 
         <article class="weapon frost">
           <figure class="shot">
-            <div class="slot">Скриншот: img/shatterheart.png</div>
-            <img src="img/shatterheart.png" alt="Shatterheart" loading="lazy" onerror="this.remove()">
+            <div class="slot">Скриншот: shatterheart.webp</div>
+            <img src="shatterheart.webp" alt="Shatterheart" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.remove()">
           </figure>
           <h3>Shatterheart</h3>
           <p>Меч с утверждённым дизайном. Руны и эффекты ещё в работе.</p>
@@ -443,8 +448,8 @@
 
       <div class="dossier">
         <figure class="shot tall">
-          <div class="slot">Концепт: img/goblin-scout.png</div>
-          <img src="img/goblin-scout.png" alt="Goblin Scout" loading="lazy" onerror="this.remove()">
+          <div class="slot">Концепт: goblin-scout.webp</div>
+          <img src="goblin-scout.webp" alt="Goblin Scout" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.remove()">
         </figure>
         <div>
           <h3>Goblin Scout</h3>
