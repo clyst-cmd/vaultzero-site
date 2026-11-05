@@ -1,19 +1,19 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>VAULT ZERO — Хранилище нулевой точки</title>
-<meta name="description" content="VAULT ZERO — Roblox-игра с хранилищами, оружием и боевой системой. Новости, арсенал и план разработки.">
-<meta name="theme-color" content="#10151b">
-<meta property="og:type" content="website">
-<meta property="og:title" content="VAULT ZERO — Хранилище нулевой точки">
-<meta property="og:description" content="Открывай хранилища, добывай оружие и пробивайся через мир, который строится прямо сейчас.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2310151b' stroke='%23f08a3c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='8' fill='none' stroke='%238fd0e6' stroke-width='4'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Forum&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-
+<meta content="VAULT ZERO — Roblox-игра с хранилищами, оружием и боевой системой. Новости, арсенал и план разработки." name="description"/>
+<meta content="#080d12" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="VAULT ZERO — Хранилище нулевой точки" property="og:title"/>
+<meta content="Открывай хранилища, добывай оружие и пробивайся через мир, который строится прямо сейчас." property="og:description"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2310151b' stroke='%23f08a3c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='8' fill='none' stroke='%238fd0e6' stroke-width='4'/%3E%3C/svg%3E" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Forum&amp;family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --base: #10151b;
@@ -284,239 +284,214 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
-</head>
-<body>
-
+<link href="vaultzero.css" rel="stylesheet"/></head>
+<body><div aria-hidden="true" class="progress-track"></div>
 <!-- Vault door artwork (shared by both halves of the door) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="gDual" gradientUnits="userSpaceOnUse" x1="20" y1="0" x2="480" y2="0">
-      <stop offset="0" stop-color="#8fd0e6"/>
-      <stop offset="0.5" stop-color="#c9c4b6"/>
-      <stop offset="1" stop-color="#f08a3c"/>
-    </linearGradient>
-    <radialGradient id="gIron" cx="50%" cy="42%" r="70%">
-      <stop offset="0" stop-color="#232c37"/>
-      <stop offset="1" stop-color="#141a21"/>
-    </radialGradient>
-    <radialGradient id="gPlate" cx="50%" cy="40%" r="70%">
-      <stop offset="0" stop-color="#2a3541"/>
-      <stop offset="1" stop-color="#18202a"/>
-    </radialGradient>
-  </defs>
-  <symbol id="door" viewBox="0 0 500 500">
-    <circle cx="250" cy="250" r="244" fill="url(#gIron)" stroke="#2a333e" stroke-width="2"/>
-    <circle cx="250" cy="250" r="238" fill="none" stroke="url(#gDual)" stroke-width="1.5" opacity="0.9"/>
-    <g id="ticks" stroke="#c9c4b6" stroke-width="1.4" opacity="0.5"></g>
-    <circle cx="250" cy="250" r="222" fill="none" stroke="#2a333e" stroke-width="2"/>
-
-    <g id="ringA">
-      <circle cx="250" cy="250" r="214" fill="none" stroke="url(#gDual)" stroke-width="1.2" opacity="0.8"/>
-      <circle cx="250" cy="250" r="180" fill="none" stroke="url(#gDual)" stroke-width="1.2" opacity="0.8"/>
-      <g id="runes" fill="none" stroke="#ebe5d6" stroke-width="1.6" stroke-linecap="round" opacity="0.62"></g>
-    </g>
-
-    <g id="ringB">
-      <circle cx="250" cy="250" r="168" fill="#151c24" stroke="#2a333e" stroke-width="2"/>
-      <g id="notches" fill="url(#gDual)" opacity="0.9"></g>
-      <circle cx="250" cy="250" r="150" fill="none" stroke="#2a333e" stroke-width="2"/>
-    </g>
-
-    <circle cx="250" cy="250" r="142" fill="url(#gPlate)" stroke="url(#gDual)" stroke-width="1.5"/>
-    <g id="bolts"></g>
-
-    <g id="wheel">
-      <g id="spokes" stroke="url(#gDual)" stroke-width="7" stroke-linecap="round"></g>
-      <g id="knobs" fill="#18202a" stroke="url(#gDual)" stroke-width="2.5"></g>
-    </g>
-    <circle cx="250" cy="250" r="28" fill="#18202a" stroke="url(#gDual)" stroke-width="3"/>
-    <circle cx="250" cy="250" r="8" fill="none" stroke="url(#gDual)" stroke-width="3"/>
-  </symbol>
+<svg aria-hidden="true" focusable="false" height="0" style="position:absolute" width="0">
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="gDual" x1="20" x2="480" y1="0" y2="0">
+<stop offset="0" stop-color="#8fd0e6"></stop>
+<stop offset="0.5" stop-color="#c9c4b6"></stop>
+<stop offset="1" stop-color="#f08a3c"></stop>
+</lineargradient>
+<radialgradient cx="50%" cy="42%" id="gIron" r="70%">
+<stop offset="0" stop-color="#232c37"></stop>
+<stop offset="1" stop-color="#141a21"></stop>
+</radialgradient>
+<radialgradient cx="50%" cy="40%" id="gPlate" r="70%">
+<stop offset="0" stop-color="#2a3541"></stop>
+<stop offset="1" stop-color="#18202a"></stop>
+</radialgradient>
+</defs>
+<symbol id="door" viewbox="0 0 500 500">
+<circle cx="250" cy="250" fill="url(#gIron)" r="244" stroke="#2a333e" stroke-width="2"></circle>
+<circle cx="250" cy="250" fill="none" opacity="0.9" r="238" stroke="url(#gDual)" stroke-width="1.5"></circle>
+<g id="ticks" opacity="0.5" stroke="#c9c4b6" stroke-width="1.4"></g>
+<circle cx="250" cy="250" fill="none" r="222" stroke="#2a333e" stroke-width="2"></circle>
+<g id="ringA">
+<circle cx="250" cy="250" fill="none" opacity="0.8" r="214" stroke="url(#gDual)" stroke-width="1.2"></circle>
+<circle cx="250" cy="250" fill="none" opacity="0.8" r="180" stroke="url(#gDual)" stroke-width="1.2"></circle>
+<g fill="none" id="runes" opacity="0.62" stroke="#ebe5d6" stroke-linecap="round" stroke-width="1.6"></g>
+</g>
+<g id="ringB">
+<circle cx="250" cy="250" fill="#151c24" r="168" stroke="#2a333e" stroke-width="2"></circle>
+<g fill="url(#gDual)" id="notches" opacity="0.9"></g>
+<circle cx="250" cy="250" fill="none" r="150" stroke="#2a333e" stroke-width="2"></circle>
+</g>
+<circle cx="250" cy="250" fill="url(#gPlate)" r="142" stroke="url(#gDual)" stroke-width="1.5"></circle>
+<g id="bolts"></g>
+<g id="wheel">
+<g id="spokes" stroke="url(#gDual)" stroke-linecap="round" stroke-width="7"></g>
+<g fill="#18202a" id="knobs" stroke="url(#gDual)" stroke-width="2.5"></g>
+</g>
+<circle cx="250" cy="250" fill="#18202a" r="28" stroke="url(#gDual)" stroke-width="3"></circle>
+<circle cx="250" cy="250" fill="none" r="8" stroke="url(#gDual)" stroke-width="3"></circle>
+</symbol>
 </svg>
-
 <header class="site-head">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="VAULT ZERO, к началу страницы">VAULT ZERO</a>
-    <nav class="site-nav" aria-label="Разделы">
-      <a href="#vaults">Хранилища</a>
-      <a href="#arsenal">Арсенал</a>
-      <a href="#world">Мир</a>
-      <a href="#route">План</a>
-      <a href="wiki.html" data-keep>Вики</a>
-      <a class="nav-play" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть</a>
-    </nav>
-  </div>
+<div class="wrap">
+<a aria-label="VAULT ZERO, к началу страницы" class="brand" href="#top">VAULT ZERO</a>
+<nav aria-label="Разделы" class="site-nav">
+<a href="#vaults">Хранилища</a>
+<a href="#arsenal">Арсенал</a>
+<a href="#world">Мир</a>
+<a href="#route">План</a>
+<a data-keep="" href="wiki.html">Вики</a>
+<a class="nav-play" data-link="roblox" href="https://www.roblox.com/games/78115785740379" rel="noopener" target="_blank">Играть</a>
+</nav>
+</div>
 </header>
-
 <main id="top">
+<section class="hero" id="hero">
+<canvas aria-hidden="true" id="fx"></canvas>
+<div class="wrap hero-grid">
+<div class="hero-copy"><p class="eyebrow">DARK FANTASY  /  ACTION RPG  /  ROBLOX</p>
+<h1 class="title"><span>Vault</span><span>Zero</span></h1>
+<p class="tagline">Хранилище нулевой точки</p>
+<p class="lede">Открывай хранилища, добывай оружие и пробивайся через мир, который строится прямо сейчас.</p>
+<div class="actions">
+<a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" rel="noopener" target="_blank">Играть в Roblox</a>
+<button aria-controls="core" aria-expanded="false" class="btn btn-ghost" id="openBtn" type="button">Открыть хранилище</button>
+</div>
+<div class="hero-subnote"><span class="diamond">✧</span><span>Explore the unknown</span><span class="diamond">✧</span><span>Forge your path</span><span class="diamond">✧</span><strong>VAULT ZERO</strong></div></div>
+<div class="vault" id="vault">
+<div class="core" id="core" inert="">
+<h2>Хранилище открыто</h2>
+<p>Награды ждут внутри игры.</p>
+<a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" rel="noopener" target="_blank">Войти в игру</a>
+</div>
+<svg aria-hidden="true" class="door door-l" focusable="false" viewbox="0 0 500 500"><use href="#door"></use></svg>
+<svg aria-hidden="true" class="door door-r" focusable="false" viewbox="0 0 500 500"><use href="#door"></use></svg>
+<div class="hero-right-mark"><span>ZERO / ORIGIN</span><span>ARCANE SEAL // 001</span></div></div>
+</div>
+</section>
+<section class="sec" id="vaults">
+<div class="wrap">
+<div class="sec-head"><p class="section-mark">I / VAULTS &amp; REWARDS</p>
+<h2>Хранилища</h2>
+<p>Награду определяет сервер, а не клиент: результат нельзя подделать на стороне игрока.</p>
+</div>
+<table class="ledger">
+<thead>
+<tr><th>Хранилище</th><th class="lvl-col">Уровень доступа</th><th>Цена</th></tr>
+</thead>
+<tbody>
+<tr><td class="name">Free Vault</td><td class="lvl lvl-col">—</td><td class="price">Бесплатно</td></tr>
+<tr><td class="name">Хранилище I</td><td class="lvl lvl-col">1</td><td class="price">100</td></tr>
+<tr><td class="name">Хранилище II</td><td class="lvl lvl-col">2</td><td class="price">350</td></tr>
+<tr><td class="name">Хранилище III</td><td class="lvl lvl-col">4</td><td class="price">900</td></tr>
+</tbody>
+</table>
+<p class="themes">Две тематики оформления: <span class="ice">Ice</span> и <span class="mag">Magma</span>.</p>
+</div>
+</section>
+<section class="sec" id="arsenal">
+<div class="wrap">
+<div class="sec-head"><p class="section-mark">II / THE ARSENAL</p>
+<h2>Арсенал</h2>
+<p>Два главных оружия проекта.</p>
+</div>
+<div class="arsenal">
+<article class="weapon magma"><div class="eyebrow">FEATURED WEAPON  —  MAGMA</div>
+<figure class="shot contain">
+<div class="slot">Скриншот: corebreaker.webp</div>
+<img alt="Corebreaker" decoding="async" loading="lazy" onerror="this.remove()" onload="this.previousElementSibling.remove()" src="corebreaker.webp"/>
+</figure>
+<h3>Corebreaker</h3>
+<p>Боевая секира с магматическим ядром и острыми гранями с обеих сторон.</p>
+<a class="more" href="wiki.html#/corebreaker">Страница в вики</a>
+</article>
+<article class="weapon frost"><div class="eyebrow">CONCEPT  —  FROST</div>
+<figure class="shot">
+<div class="slot">В разработке</div>
 
-  <section class="hero" id="hero">
-    <canvas id="fx" aria-hidden="true"></canvas>
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <h1 class="title"><span>Vault</span><span>Zero</span></h1>
-        <p class="tagline">Хранилище нулевой точки</p>
-        <p class="lede">Открывай хранилища, добывай оружие и пробивайся через мир, который строится прямо сейчас.</p>
-        <div class="actions">
-          <a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть в Roblox</a>
-          <button class="btn btn-ghost" id="openBtn" type="button" aria-expanded="false" aria-controls="core">Открыть хранилище</button>
-        </div>
-      </div>
+</figure>
+<h3>Shatterheart</h3>
+<p>Меч с утверждённым дизайном. Руны и эффекты ещё в работе.</p>
+</article>
+</div>
+<div style="height: clamp(48px, 7vw, 88px)"></div>
+<ul class="moves">
+<li>Lock-On</li>
+<li>Спринт</li>
+<li>Рывок</li>
+<li>Перекат</li>
+<li>Прыжок</li>
+</ul>
+<p class="moves-note">Бой строится на плавных переходах между движениями. Оружие ближнего боя: коса и копьё.</p>
+</div>
+</section>
+<section class="sec" id="world">
+<div class="wrap">
+<div class="sec-head"><p class="section-mark">III / THE WORLD</p>
+<h2>Мир</h2>
+<p>Лагеря, мобы и жители острова. Мир собирается по плану, который ниже.</p>
+</div>
+<div class="dossier">
+<figure class="shot tall">
+<div class="slot">В разработке</div>
 
-      <div class="vault" id="vault">
-        <div class="core" id="core" inert>
-          <h2>Хранилище открыто</h2>
-          <p>Награды ждут внутри игры.</p>
-          <a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Войти в игру</a>
-        </div>
-        <svg class="door door-l" viewBox="0 0 500 500" aria-hidden="true" focusable="false"><use href="#door"/></svg>
-        <svg class="door door-r" viewBox="0 0 500 500" aria-hidden="true" focusable="false"><use href="#door"/></svg>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="vaults">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Хранилища</h2>
-        <p>Награду определяет сервер, а не клиент: результат нельзя подделать на стороне игрока.</p>
-      </div>
-
-      <table class="ledger">
-        <thead>
-          <tr><th>Хранилище</th><th class="lvl-col">Уровень доступа</th><th>Цена</th></tr>
-        </thead>
-        <tbody>
-          <tr><td class="name">Free Vault</td><td class="lvl lvl-col">—</td><td class="price">Бесплатно</td></tr>
-          <tr><td class="name">Хранилище I</td><td class="lvl lvl-col">1</td><td class="price">100</td></tr>
-          <tr><td class="name">Хранилище II</td><td class="lvl lvl-col">2</td><td class="price">350</td></tr>
-          <tr><td class="name">Хранилище III</td><td class="lvl lvl-col">4</td><td class="price">900</td></tr>
-        </tbody>
-      </table>
-
-      <p class="themes">Две тематики оформления: <span class="ice">Ice</span> и <span class="mag">Magma</span>.</p>
-    </div>
-  </section>
-
-  <section class="sec" id="arsenal">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Арсенал</h2>
-        <p>Два главных оружия проекта.</p>
-      </div>
-
-      <div class="arsenal">
-        <article class="weapon magma">
-          <figure class="shot contain">
-            <div class="slot">Скриншот: corebreaker.webp</div>
-            <img src="corebreaker.webp" alt="Corebreaker" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.remove()">
-          </figure>
-          <h3>Corebreaker</h3>
-          <p>Боевая секира с магматическим ядром и острыми гранями с обеих сторон.</p>
-          <a class="more" href="wiki.html#/corebreaker">Страница в вики</a>
-        </article>
-
-        <article class="weapon frost">
-          <figure class="shot">
-            <div class="slot">Скриншот: shatterheart.webp</div>
-            <img src="shatterheart.webp" alt="Shatterheart" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.remove()">
-          </figure>
-          <h3>Shatterheart</h3>
-          <p>Меч с утверждённым дизайном. Руны и эффекты ещё в работе.</p>
-        </article>
-      </div>
-
-      <div style="height: clamp(48px, 7vw, 88px)"></div>
-
-      <ul class="moves">
-        <li>Lock-On</li>
-        <li>Спринт</li>
-        <li>Рывок</li>
-        <li>Перекат</li>
-        <li>Прыжок</li>
-      </ul>
-      <p class="moves-note">Бой строится на плавных переходах между движениями. Оружие ближнего боя: коса и копьё.</p>
-    </div>
-  </section>
-
-  <section class="sec" id="world">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Мир</h2>
-        <p>Лагеря, мобы и жители острова. Мир собирается по плану, который ниже.</p>
-      </div>
-
-      <div class="dossier">
-        <figure class="shot tall">
-          <div class="slot">Концепт: goblin-scout.webp</div>
-          <img src="goblin-scout.webp" alt="Goblin Scout" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.remove()">
-        </figure>
-        <div>
-          <h3>Goblin Scout</h3>
-          <p class="blurb">Быстрый, ловкий, всегда на шаг впереди. Он появляется раньше, чем его заметят.</p>
-          <dl class="stats">
-            <div><dt>Роль</dt><dd>Разведчик</dd></div>
-            <div><dt>Фракция</dt><dd>Лесные гоблины</dd></div>
-            <div><dt>Угроза</dt><dd>Средняя</dd></div>
-            <div><dt>Повадки</dt><dd>Скорость, ловкость, внезапные атаки</dd></div>
-            <div><dt>Оружие</dt><dd>Кинжалы и метательное</dd></div>
-          </dl>
-        </div>
-      </div>
-
-      <h3 class="npc-title">Жители</h3>
-      <ul class="npcs">
-        <li><span class="ru">Кузнец</span><span class="en">Blacksmith</span></li>
-        <li><span class="ru">Хранитель рун</span><span class="en">Rune Keeper</span></li>
-        <li><span class="ru">Торговец ресурсами</span><span class="en">Resource Trader</span></li>
-        <li><span class="ru">Архивариус</span><span class="en">Archivist</span></li>
-        <li><span class="ru">Зачарователь</span><span class="en">Enchanter</span></li>
-        <li><span class="ru">Охотник на гоблинов</span><span class="en">Goblin Hunter</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="sec" id="route">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>План работ</h2>
-        <p>Мир собирается этап за этапом. Так порядок выглядит сейчас.</p>
-      </div>
-
-      <!-- Статус этапа: добавь класс "done" (готово) или "now" (в работе) к нужному пункту -->
-      <ol class="route">
-        <li>Кусты</li>
-        <li>Мобы</li>
-        <li>Лагеря</li>
-        <li>Вода</li>
-        <li>Форма острова</li>
-        <li>Погода</li>
-        <li>Cinematic Lighting</li>
-        <li>Атмосфера и звуки</li>
-        <li>Финальная оптимизация</li>
-      </ol>
-    </div>
-  </section>
-
+</figure>
+<div>
+<h3>Goblin Scout</h3>
+<p class="blurb">Быстрый, ловкий, всегда на шаг впереди. Он появляется раньше, чем его заметят.</p>
+<dl class="stats">
+<div><dt>Роль</dt><dd>Разведчик</dd></div>
+<div><dt>Фракция</dt><dd>Лесные гоблины</dd></div>
+<div><dt>Угроза</dt><dd>Средняя</dd></div>
+<div><dt>Повадки</dt><dd>Скорость, ловкость, внезапные атаки</dd></div>
+<div><dt>Оружие</dt><dd>Кинжалы и метательное</dd></div>
+</dl>
+</div>
+</div>
+<h3 class="npc-title">Жители</h3>
+<ul class="npcs">
+<li><span class="ru">Кузнец</span><span class="en">Blacksmith</span></li>
+<li><span class="ru">Хранитель рун</span><span class="en">Rune Keeper</span></li>
+<li><span class="ru">Торговец ресурсами</span><span class="en">Resource Trader</span></li>
+<li><span class="ru">Архивариус</span><span class="en">Archivist</span></li>
+<li><span class="ru">Зачарователь</span><span class="en">Enchanter</span></li>
+<li><span class="ru">Охотник на гоблинов</span><span class="en">Goblin Hunter</span></li>
+</ul>
+</div>
+</section>
+<section class="sec" id="route">
+<div class="wrap">
+<div class="sec-head"><p class="section-mark">IV / DEVELOPMENT LOG</p>
+<h2>План работ</h2>
+<p>Мир собирается этап за этапом. Так порядок выглядит сейчас.</p>
+</div>
+<!-- Статус этапа: добавь класс "done" (готово) или "now" (в работе) к нужному пункту -->
+<ol class="route">
+<li>Кусты</li>
+<li>Мобы</li>
+<li>Лагеря</li>
+<li>Вода</li>
+<li>Форма острова</li>
+<li>Погода</li>
+<li>Cinematic Lighting</li>
+<li>Атмосфера и звуки</li>
+<li>Финальная оптимизация</li>
+</ol>
+</div>
+</section>
 </main>
-
 <footer class="site-foot">
-  <div class="wrap">
-    <div class="foot-cta">
-      <h2>Нулевая точка ждёт</h2>
-      <div class="links">
-        <a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть в Roblox</a>
-        <a class="btn btn-ghost" data-link="discord" href="#" target="_blank" rel="noopener" hidden>Discord</a>
-        <a class="btn btn-ghost" data-link="email" href="#" hidden>Написать нам</a>
-      </div>
-    </div>
-    <div class="fine">
-      <span>© 2026 VAULT ZERO</span>
-      <span>Roblox — торговая марка Roblox Corporation. Проект не связан с ней.</span>
-    </div>
-  </div>
+<div class="wrap">
+<div class="foot-cta">
+<h2>Нулевая точка ждёт</h2>
+<div class="links">
+<a class="btn btn-primary" data-link="roblox" href="https://www.roblox.com/games/78115785740379" rel="noopener" target="_blank">Играть в Roblox</a>
+<a class="btn btn-ghost" data-link="discord" hidden="" href="#" rel="noopener" target="_blank">Discord</a>
+<a class="btn btn-ghost" data-link="email" hidden="" href="#">Написать нам</a>
+</div>
+</div>
+<div class="fine">
+<span>© 2026 VAULT ZERO</span>
+<span>Roblox — торговая марка Roblox Corporation. Проект не связан с ней.</span>
+</div>
+</div>
 </footer>
-
 <script>
 (function () {
   "use strict";
@@ -708,6 +683,19 @@
   }
 })();
 </script>
-
-</body>
+<script>
+(function(){
+  var bar=document.querySelector('.progress-track');
+  var scheduled=false;
+  function paint(){
+    var h=document.documentElement;
+    var span=Math.max(1,h.scrollHeight-innerHeight);
+    bar.style.width=(100*Math.max(0,Math.min(1,scrollY/span))).toFixed(2)+'%';
+    scheduled=false;
+  }
+  addEventListener('scroll',function(){if(!scheduled){scheduled=true;requestAnimationFrame(paint)}},{passive:true});
+  addEventListener('resize',paint,{passive:true});
+  addEventListener('hashchange',function(){requestAnimationFrame(paint)});
+  paint();
+})();</script></body>
 </html>

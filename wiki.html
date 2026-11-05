@@ -1,16 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Вики — VAULT ZERO</title>
-<meta name="description" content="Вики VAULT ZERO: оружие, мобы и жители мира. Справочник растёт вместе с игрой.">
-<meta name="theme-color" content="#10151b">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2310151b' stroke='%23f08a3c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='8' fill='none' stroke='%238fd0e6' stroke-width='4'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Forum&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-
+<meta content="Вики VAULT ZERO: оружие, мобы и жители мира. Справочник растёт вместе с игрой." name="description"/>
+<meta content="#080d12" name="theme-color"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2310151b' stroke='%23f08a3c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='8' fill='none' stroke='%238fd0e6' stroke-width='4'/%3E%3C/svg%3E" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Forum&amp;family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --base: #10151b;
@@ -300,31 +300,26 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
-</head>
-<body>
-
+<link href="vaultzero.css" rel="stylesheet"/></head>
+<body><div aria-hidden="true" class="progress-track"></div>
 <header class="site-head">
-  <div class="wrap">
-    <a class="brand" href="index.html" aria-label="VAULT ZERO, на главную">VAULT ZERO</a>
-    <nav class="site-nav" aria-label="Разделы">
-      <a href="index.html">Игра</a>
-      <a href="#/" data-keep aria-current="page">Вики</a>
-      <a class="nav-play" href="https://www.roblox.com/games/78115785740379" target="_blank" rel="noopener">Играть</a>
-    </nav>
-  </div>
+<div class="wrap">
+<a aria-label="VAULT ZERO, на главную" class="brand" href="index.html">VAULT ZERO</a>
+<nav aria-label="Разделы" class="site-nav">
+<a data-keep="" href="index.html">Игра</a>
+<a aria-current="page" data-keep="" href="#/">Вики</a>
+<a class="nav-play" href="https://www.roblox.com/games/78115785740379" rel="noopener" target="_blank">Играть</a>
+</nav>
+</div>
 </header>
-
 <main id="view"></main>
-
 <footer class="site-foot">
-  <div class="wrap">
-    <span>© 2026 VAULT ZERO</span>
-    <span>Roblox — торговая марка Roblox Corporation. Проект не связан с ней.</span>
-  </div>
+<div class="wrap">
+<span>© 2026 VAULT ZERO</span>
+<span>Roblox — торговая марка Roblox Corporation. Проект не связан с ней.</span>
+</div>
 </footer>
-
 <noscript><p style="padding:24px;color:#ebe5d6">Для работы вики нужен включённый JavaScript.</p></noscript>
-
 <script>
 /*
   База вики VAULT ZERO.
@@ -837,6 +832,19 @@ window.WIKI = {
   route();
 })();
 </script>
-
-</body>
+<script>
+(function(){
+  var bar=document.querySelector('.progress-track');
+  var scheduled=false;
+  function paint(){
+    var h=document.documentElement;
+    var span=Math.max(1,h.scrollHeight-innerHeight);
+    bar.style.width=(100*Math.max(0,Math.min(1,scrollY/span))).toFixed(2)+'%';
+    scheduled=false;
+  }
+  addEventListener('scroll',function(){if(!scheduled){scheduled=true;requestAnimationFrame(paint)}},{passive:true});
+  addEventListener('resize',paint,{passive:true});
+  addEventListener('hashchange',function(){requestAnimationFrame(paint)});
+  paint();
+})();</script></body>
 </html>
